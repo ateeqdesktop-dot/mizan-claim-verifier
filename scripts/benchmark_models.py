@@ -85,7 +85,7 @@ def main() -> None:
             "chronological": evaluate(chronological.train, chronological.test),
             "stratified": evaluate(stratified_train, stratified_test),
         },
-        "selection_note": "The deployable model remains logistic_balanced_word_char because it provides calibrated probabilities for the abstention policy; benchmark scores alone do not justify replacing the serving model.",
+        "selection_note": "The deployable model remains logistic_balanced_word_char because it provides probability estimates used by the abstention policy; these probabilities are not independently calibrated in this release, and benchmark scores alone do not justify replacing the serving model.",
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(output, ensure_ascii=False, indent=2), encoding="utf-8")

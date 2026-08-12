@@ -55,5 +55,5 @@
       }
     }
   },
-  "selection_note": "The deployable model remains logistic_balanced_word_char because it provides calibrated probabilities for the abstention policy; benchmark scores alone do not justify replacing the serving model."
+  "selection_note": "The deployable model remains logistic_balanced_word_char because it provides probability estimates used by the abstention policy; these probabilities are not independently calibrated in this release, and benchmark scores alone do not justify replacing the serving model."
 }
