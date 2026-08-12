@@ -6,7 +6,7 @@
 
 **المستودع:** [ateeqdesktop-dot/mizan-claim-verifier](https://github.com/ateeqdesktop-dot/mizan-claim-verifier)
 
-**آخر commit موثق:** `821b06ebfbbda0d65045da80cb586bd7df72302d`
+**آخر commit موثق:** `cc15a119a1957c2c61f7f976c049de564e23ab98`
 
 ## الملخص التنفيذي
 
@@ -48,7 +48,7 @@
 
 ## التنفيذ والواجهة
 
-يتضمن المشروع حزمة Python منظمة، وسكربت تدريب وتقييم، وCLI للتنبؤ الفردي، وFastAPI، وواجهة Demo عربية RTL متجاوبة. توفر الخدمة المسارات `/health` و`/metadata` و`/verify` و`/demo`. في فحص تشغيل فعلي باستخدام artifacts محلية، أعاد `/health` حالة `ok`، وأعاد `/demo` صفحة HTML عربية بحجم 5,879 بايت، وأعاد `/verify` استجابة HTTP 200. ولادعاء تجريبي غير قريب من فهرس الأدلة، أظهر النظام `model_verdict` داخليًا لكنه أبقى `verdict: null` و`evidence_status: insufficient_evidence` بسبب غياب جمل دليل صالحة؛ وهذا يثبت سلوك الامتناع المقصود.
+يتضمن المشروع حزمة Python منظمة، وسكربت تدريب وتقييم، وCLI للتنبؤ الفردي، وFastAPI، وواجهة Demo عربية RTL متجاوبة. توفر الخدمة المسارات `/health` و`/metadata` و`/verify` و`/demo`. في فحص تشغيل فعلي باستخدام artifacts محلية، أعاد `/health` حالة `ok`، وأعاد `/demo` صفحة HTML عربية بحجم 5,879 بايت، وأعاد `/verify` استجابة HTTP 200. وتثبت اختبارات الخدمة أن النظام يحافظ على `model_verdict` الداخلي لكنه يعيد `verdict: null` و`evidence_status: insufficient_evidence` عند تجاوز عتبة الامتناع؛ وهذا يثبت سلوك الامتناع المقصود دون ادعاء معايرة احتمالية مستقلة.
 
 ## الجودة والأمان وقابلية التتبع
 
