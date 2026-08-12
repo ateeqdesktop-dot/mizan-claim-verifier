@@ -6,7 +6,7 @@
 
 **المستودع:** [ateeqdesktop-dot/mizan-claim-verifier](https://github.com/ateeqdesktop-dot/mizan-claim-verifier)
 
-**آخر commit موثق:** `29cbfb839f716bb2d69b51bcd43da2351b2fb9d4`
+**آخر commit موثق:** `821b06ebfbbda0d65045da80cb586bd7df72302d`
 
 ## الملخص التنفيذي
 
