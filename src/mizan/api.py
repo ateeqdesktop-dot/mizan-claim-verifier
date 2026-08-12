@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import os
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from .model import MizanClassifier
@@ -32,12 +35,8 @@ class VerifyResponse(BaseModel):
     candidates: list[dict[str, Any]] = Field(default_factory=list)
 
 
-app = FastAPI(
-    title="Mizan Arabic Claim Verification API",
-    version="0.1.0",
-    description="Evidence-backed, reviewable Arabic claim verification.",
-)
-
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+FRONTEND_DIR = PROJECT_ROOT / "frontend"
 _SERVICE: VerifierService | None = None
 
 
@@ -56,8 +55,7 @@ def load_service_from_env() -> VerifierService:
     return VerifierService(classifier=classifier, retriever=retriever)
 
 
-@app.on_event("startup")
-def startup() -> None:
+def load_artifacts_if_available() -> None:
     global _SERVICE
     if _SERVICE is not None:
         return
@@ -65,6 +63,30 @@ def startup() -> None:
     index_path = Path(os.getenv("MIZAN_INDEX_PATH", "models/retriever.joblib"))
     if model_path.exists() and index_path.exists():
         _SERVICE = load_service_from_env()
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    load_artifacts_if_available()
+    yield
+
+
+app = FastAPI(
+    title="Mizan Arabic Claim Verification API",
+    version="0.2.0",
+    description="Evidence-backed, reviewable Arabic claim verification.",
+    lifespan=lifespan,
+)
+if FRONTEND_DIR.exists():
+    app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
+
+
+@app.get("/", include_in_schema=False)
+@app.get("/demo", include_in_schema=False)
+def demo() -> FileResponse:
+    if not (FRONTEND_DIR / "index.html").exists():
+        raise HTTPException(status_code=404, detail="frontend demo is not installed")
+    return FileResponse(FRONTEND_DIR / "index.html")
 
 
 @app.get("/health")

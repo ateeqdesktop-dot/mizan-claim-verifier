@@ -11,6 +11,7 @@ COPY pyproject.toml requirements.txt README.md ./
 RUN pip install --no-cache-dir -r requirements.txt
 COPY src ./src
 COPY scripts ./scripts
+COPY frontend ./frontend
 COPY models ./models
 
 EXPOSE 8000

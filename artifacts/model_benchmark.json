@@ -1,0 +1,59 @@
+{
+  "task": "claim-only classification",
+  "labels": [
+    "False",
+    "Partly-false",
+    "True",
+    "Sarcasm",
+    "Unverifiable"
+  ],
+  "protocols": {
+    "chronological": {
+      "majority": {
+        "rows": 934,
+        "accuracy": 0.5492505353319058,
+        "balanced_accuracy": 0.25,
+        "macro_f1": 0.14181064270905322,
+        "weighted_f1": 0.38944785711854546
+      },
+      "linear_svc_balanced": {
+        "rows": 934,
+        "accuracy": 0.6349036402569593,
+        "balanced_accuracy": 0.3212223867426452,
+        "macro_f1": 0.2544633894246856,
+        "weighted_f1": 0.6242806598179997
+      },
+      "logistic_balanced_word_char": {
+        "rows": 934,
+        "accuracy": 0.6423982869379015,
+        "balanced_accuracy": 0.3299556791951461,
+        "macro_f1": 0.2606933043496193,
+        "weighted_f1": 0.6361685394985346
+      }
+    },
+    "stratified": {
+      "majority": {
+        "rows": 1245,
+        "accuracy": 0.648995983935743,
+        "balanced_accuracy": 0.2,
+        "macro_f1": 0.15742815392109108,
+        "weighted_f1": 0.5108511982660305
+      },
+      "linear_svc_balanced": {
+        "rows": 1245,
+        "accuracy": 0.6779116465863454,
+        "balanced_accuracy": 0.2772159358793022,
+        "macro_f1": 0.281388972988053,
+        "weighted_f1": 0.6644760530831759
+      },
+      "logistic_balanced_word_char": {
+        "rows": 1245,
+        "accuracy": 0.6811244979919678,
+        "balanced_accuracy": 0.2950319555765101,
+        "macro_f1": 0.3007648894154852,
+        "weighted_f1": 0.6739491927260095
+      }
+    }
+  },
+  "selection_note": "The deployable model remains logistic_balanced_word_char because it provides calibrated probabilities for the abstention policy; benchmark scores alone do not justify replacing the serving model."
+}

@@ -73,6 +73,7 @@ class VerifierService:
                     "label": item["label"],
                     "score": round(float(item["score"]), 6),
                     "source_url": item["source_url"],
+                    "content_excerpt": " ".join(str(item["content"]).split())[:240],
                 }
                 for item in candidates
             ],

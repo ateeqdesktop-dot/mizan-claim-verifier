@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ميزان — تجربة عربية قابلة للمراجعة للتحقق من الادعاءات بالأدلة" />
+    <title>ميزان | التحقق العربي بالأدلة</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/demo" aria-label="العودة إلى الصفحة الرئيسية">
+          <span class="brand-mark">م</span>
+          <span>
+            <strong>ميزان</strong>
+            <small>MIZAN / EVIDENCE LAB</small>
+          </span>
+        </a>
+        <div class="status-pill"><span class="status-dot"></span><span id="system-status">جاري فحص النموذج</span></div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">ARABIC CLAIM VERIFICATION · RESEARCH DEMO</p>
+          <h1>لا تكتفِ بالحكم.<br /><em>أرِني الدليل.</em></h1>
+          <p class="hero-lede">ميزان يفصل بين تصنيف الادعاء، واسترجاع مقالات التحقق، وعرض الجمل التي يستطيع الإنسان مراجعتها. عند ضعف الدعم، يختار النظام الامتناع بدل الثقة الزائفة.</p>
+          <div class="hero-stats">
+            <div><strong>5</strong><span>فئات ادعاء</span></div>
+            <div><strong>2</strong><span>بروتوكولا للتقييم</span></div>
+            <div><strong>0</strong><span>اتصال خارجي لحظي</span></div>
+          </div>
+        </div>
+        <aside class="principle-card">
+          <span class="card-kicker">مبدأ التصميم</span>
+          <blockquote>«لا يصدر الحكم النهائي ما لم يكن هناك دليل قابل للمراجعة.»</blockquote>
+          <div class="principle-line"><span class="line-icon">01</span><span>تصنيف احتمالي</span></div>
+          <div class="principle-line"><span class="line-icon">02</span><span>استرجاع مستقل</span></div>
+          <div class="principle-line"><span class="line-icon">03</span><span>امتناع آمن</span></div>
+        </aside>
+      </section>
+
+      <section class="workspace" aria-labelledby="verify-heading">
+        <div class="workspace-head">
+          <div>
+            <p class="section-label">01 / INPUT</p>
+            <h2 id="verify-heading">أدخل الادعاء المراد فحصه</h2>
+          </div>
+          <span class="keyboard-hint">Ctrl / ⌘ + Enter للتشغيل</span>
+        </div>
+        <form id="verify-form">
+          <label for="claim">نص الادعاء</label>
+          <textarea id="claim" name="claim" maxlength="2000" required placeholder="مثال: انتشر خبر يزعم أن قرارًا جديدًا دخل حيز التنفيذ..."></textarea>
+          <div class="form-footer">
+            <span id="char-count">0 / 2000</span>
+            <div class="form-actions">
+              <button type="button" class="ghost-button" id="example-button">استخدم مثالًا</button>
+              <button type="submit" class="primary-button" id="submit-button"><span>حلّل الادعاء</span><span class="button-arrow">←</span></button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section id="message" class="message hidden" role="status"></section>
+
+      <section id="results" class="results hidden" aria-live="polite">
+        <div class="result-heading">
+          <div><p class="section-label">02 / REVIEW</p><h2>بطاقة النتيجة</h2></div>
+          <span id="model-version" class="model-badge"></span>
+        </div>
+        <div class="result-grid">
+          <article class="verdict-card">
+            <div class="card-topline"><span>الحكم النموذجي</span><span id="evidence-status" class="status-tag"></span></div>
+            <div id="verdict" class="verdict-value">—</div>
+            <p id="verdict-note" class="verdict-note"></p>
+            <div class="confidence-row"><span>الثقة</span><strong id="confidence">—</strong></div>
+            <div class="meter"><span id="confidence-meter"></span></div>
+          </article>
+          <article class="evidence-card">
+            <div class="card-topline"><span>الدليل الأعلى صلة</span><span id="retrieval-score" class="score-chip"></span></div>
+            <h3 id="evidence-source">لا يوجد مصدر بعد</h3>
+            <p id="evidence-meta" class="muted"></p>
+            <p id="evidence-text" class="evidence-text">سيظهر هنا نص الدليل الذي يمكن مراجعته.</p>
+          </article>
+        </div>
+        <div class="probabilities-panel">
+          <div class="result-heading compact"><div><p class="section-label">03 / DISTRIBUTION</p><h2>توزيع الاحتمالات</h2></div></div>
+          <div id="probabilities" class="probabilities"></div>
+        </div>
+        <div class="candidates-panel">
+          <div class="result-heading compact"><div><p class="section-label">04 / CANDIDATES</p><h2>مرشحون للمراجعة</h2></div></div>
+          <div id="candidates" class="candidates"></div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>ميزان نموذج بحثي قابل لإعادة الإنتاج، وليس جهة تحقق رسمية.</span>
+        <a href="/docs" target="_blank" rel="noreferrer">API Docs ↗</a>
+      </footer>
+    </main>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>

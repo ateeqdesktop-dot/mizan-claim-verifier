@@ -47,7 +47,7 @@
 | استرجاع الأدلة | TF-IDF ثنائي الكلمات فوق الادعاء ومحتوى المقال | إيجاد مقالات تحقق مشابهة دون اتصال خارجي |
 | تفسير الدليل | ترتيب جمل المقال الأعلى صلة بالادعاء | جعل الاستجابة قابلة للمراجعة البشرية |
 | طبقة الأمان | عتبة صلة `0.05` وثقة `0.45` افتراضيًا | إعادة `insufficient_evidence` عند ضعف الدعم |
-| الواجهة | FastAPI مع OpenAPI | تشغيل محلي وطلب JSON قابل للدمج |
+| الواجهة | FastAPI مع OpenAPI + Demo عربي RTL | تجربة تفاعلية تعرض الحكم والدليل والمرشحين وحالات الامتناع |
 
 ## التقييم القابل لإعادة الإنتاج
 
@@ -69,6 +69,25 @@
 ![مصفوفة الالتباس الطبقية](artifacts/stratified_claim_only_confusion.png)
 
 توجد كل الأرقام الخام في [`artifacts/metrics.json`](artifacts/metrics.json)، مع تنبؤات الاختبار ومصفوفات الالتباس. وتوجد مناقشة القيود والبروتوكول في [`docs/evaluation.md`](docs/evaluation.md).
+
+### مقارنة النماذج
+
+لا تُعرض دقة النموذج وحدها. يقارن benchmark قابل لإعادة التشغيل بين Majority baseline، وLinearSVC موزون، وLogistic Regression الموزون المستخدم في الخدمة. يتفوق النموذج التشغيلي على الـbaseline في Macro-F1، مع الاحتفاظ باحتمالاته لدعم سياسة الامتناع؛ لذلك لا يعني التفوق العددي وحده أن النموذج آمن خارج البيانات.
+
+| البروتوكول | النموذج | Accuracy | Macro-F1 | Balanced accuracy |
+|---|---|---:|---:|---:|
+| زمني | Majority | 0.549 | 0.142 | 0.250 |
+| زمني | LinearSVC | 0.635 | 0.255 | 0.321 |
+| زمني | Logistic Regression | **0.642** | **0.261** | **0.330** |
+| طبقي | Majority | 0.649 | 0.157 | 0.200 |
+| طبقي | LinearSVC | 0.678 | 0.281 | 0.277 |
+| طبقي | Logistic Regression | **0.681** | **0.301** | **0.295** |
+
+أُنتجت هذه المقارنة بواسطة `scripts/benchmark_models.py` وحُفظت في [`artifacts/model_benchmark.json`](artifacts/model_benchmark.json). يمكن إعادة تشغيلها بالأمر:
+
+```bash
+make benchmark CLAIMS=data/AraFacts.csv CONTENT=data/AraFacts_content.csv
+```
 
 ## التشغيل المحلي
 
@@ -108,7 +127,17 @@ PYTHONPATH=src python scripts/make_report.py --artifacts artifacts
 
 ينتج التدريب `models/classifier.joblib` و`models/retriever.joblib`، إضافة إلى `metrics.json` وملفات CSV والصور. ملفات النموذج كبيرة نسبيًا، ولذلك تُستبعد افتراضيًا من Git ويمكن توليدها محليًا.
 
-### 4. تجربة CLI
+### 4. تشغيل Demo العربي
+
+بعد إنتاج artifacts، شغّل:
+
+```bash
+make api
+```
+
+ثم افتح [`http://localhost:8000/demo`](http://localhost:8000/demo). الواجهة RTL وتعرض الحكم النموذجي، حالة كفاية الدليل، أعلى جملة دليل، مرشحي الاسترجاع، وتوزيع الاحتمالات. لا تعتمد الواجهة على اتصال خارجي لجلب الأخبار؛ كل نتيجة ناتجة من الفهرس المحلي القابل لإعادة الإنتاج.
+
+### 5. تجربة CLI
 
 ```bash
 PYTHONPATH=src python scripts/predict.py \
@@ -116,7 +145,7 @@ PYTHONPATH=src python scripts/predict.py \
   --model-dir models
 ```
 
-### 5. تشغيل API
+### 6. تشغيل API
 
 ```bash
 make api
@@ -147,11 +176,13 @@ curl -X POST http://localhost:8000/verify \
 }
 ```
 
-### 6. الاختبارات
+### 7. الاختبارات وCI
 
 ```bash
 make test
 ```
+
+يتحقق GitHub Actions على Python 3.10 و3.11 و3.12 من compile وpytest و`git diff --check`، ويتضمن فحصًا بسيطًا لأنماط الاعتمادات السرية الشائعة. بناء Docker اختياري؛ لم يتوفر Docker daemon في بيئة التنفيذ الحالية، لكن Dockerfile و`.dockerignore` جاهزان للتشغيل محليًا.
 
 ## بنية المستودع
 
@@ -162,14 +193,21 @@ make test
 | `src/mizan/model.py` | المصنف وحفظ artifacts |
 | `src/mizan/retriever.py` | فهرس الأدلة والاسترجاع وترتيب الجمل |
 | `src/mizan/service.py` | منطق القرار والامتناع والاستجابة |
-| `src/mizan/api.py` | FastAPI endpoints |
+| `src/mizan/api.py` | FastAPI endpoints وDemo static serving |
 | `scripts/train.py` | التدريب والتقييم وحفظ النتائج |
 | `scripts/predict.py` | CLI للتنبؤ الفردي |
 | `scripts/make_report.py` | توليد الرسوم |
-| `tests/` | سبعة اختبارات وحدة وتكامل |
+| `scripts/benchmark_models.py` | مقارنة Majority وLinearSVC وLogistic Regression |
+| `frontend/` | Demo عربية RTL تعمل فوق FastAPI |
+| `tests/` | تسعة اختبارات وحدة وتكامل |
 | `docs/design.md` | وثيقة التصميم التفصيلية |
+| `docs/project_decision.md` | قرار اختيار الفكرة ومقارنة البدائل |
 | `docs/architecture.mmd` | المصدر القابل للتحرير للمخطط |
 | `artifacts/` | metrics ورسوم وتنبؤات ناتجة من التشغيل |
+
+## الجودة وسلامة التشغيل
+
+تتحقق الخدمة من طول الادعاء و`top_k`، ولا تُصدر `verdict` عندما تنخفض الثقة أو صلة الاسترجاع عن العتبة. تغطي الاختبارات التطبيع، تحميل البيانات، الاسترجاع، النموذج، API، Demo، validation، والامتناع الآمن. لا تُحفظ نصوص المستخدم بعد الطلب، ولا تُرسل إلى خدمة خارجية في الإصدار الحالي.
 
 ## القيود وخطة التطوير
 
