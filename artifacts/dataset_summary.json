@@ -1,0 +1,38 @@
+{
+  "rows": 6221,
+  "columns": [
+    "ClaimID",
+    "claim",
+    "description",
+    "source",
+    "date",
+    "source_label",
+    "normalized_label",
+    "source_category",
+    "normalized_category",
+    "source_url",
+    "claim_urls",
+    "evidence_urls",
+    "claim_type",
+    "content",
+    "claim_normalized",
+    "content_normalized",
+    "date_parsed"
+  ],
+  "label_counts": {
+    "False": 4036,
+    "Partly-false": 1891,
+    "True": 198,
+    "Sarcasm": 90,
+    "Unverifiable": 6
+  },
+  "source_counts": {
+    "Misbar": 2952,
+    "Fatabyyano": 1502,
+    "FactuelAFP": 973,
+    "Verify-sy": 707,
+    "Maharat-news": 87
+  },
+  "date_min": "2016-04-04 00:00:00+00:00",
+  "date_max": "2021-03-01 00:00:00+00:00"
+}

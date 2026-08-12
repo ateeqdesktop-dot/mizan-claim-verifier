@@ -1,0 +1,41 @@
+{
+  "claim": "انتشر خبر يزعم أن قرارا جديدا دخل حيز التنفيذ",
+  "verdict": null,
+  "model_verdict": "False",
+  "confidence": 0.672382,
+  "evidence_status": "insufficient_evidence",
+  "retrieval_score": 0.349385,
+  "probabilities": {
+    "False": 0.672382,
+    "Partly-false": 0.216018,
+    "Sarcasm": 0.030981,
+    "True": 0.07731,
+    "Unverifiable": 0.003309
+  },
+  "evidence": {
+    "claim_id": "AFP_48",
+    "source": "FactuelAFP",
+    "date": "2019-07-23 14:59:00.000000",
+    "source_url": "https://factuel.afp.com/ar/Brazilian%20Priest",
+    "sentences": []
+  },
+  "candidates": [
+    {
+      "claim_id": "AFP_48",
+      "source": "FactuelAFP",
+      "date": "2019-07-23 14:59:00.000000",
+      "label": "False",
+      "score": 0.349385,
+      "source_url": "https://factuel.afp.com/ar/Brazilian%20Priest"
+    },
+    {
+      "claim_id": "FAT_1437",
+      "source": "Fatabyyano",
+      "date": "2021-01-22 05:43:31+00:00",
+      "label": "False",
+      "score": 0.290189,
+      "source_url": "https://fatabyyano.net/زواج-التجربة-يدخل-حيز-التنفيذ-في-مصر-خب/"
+    }
+  ],
+  "model_version": "0.1.0"
+}

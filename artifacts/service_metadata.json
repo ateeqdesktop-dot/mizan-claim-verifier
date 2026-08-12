@@ -1,0 +1,17 @@
+{
+  "model_version": "0.1.0",
+  "training_rows": 6221,
+  "labels": [
+    "False",
+    "Partly-false",
+    "Sarcasm",
+    "True",
+    "Unverifiable"
+  ],
+  "model_type": "word+character TF-IDF with balanced Logistic Regression",
+  "include_evidence": false,
+  "retrieval_type": "TF-IDF cosine similarity over verification articles",
+  "min_retrieval_score": 0.05,
+  "min_confidence": 0.45,
+  "safety_policy": "insufficient_evidence when retrieval or confidence is below threshold"
+}

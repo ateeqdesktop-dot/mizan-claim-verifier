@@ -1,0 +1,17 @@
+flowchart LR
+    A["AraFacts CSV + Content CSV"] --> B["Data validation and normalization"]
+    B --> C["Time/source split and deduplication"]
+    C --> D["Arabic text normalization"]
+    D --> E["TF-IDF word + character vectorizer"]
+    E --> F["Logistic Regression classifier"]
+    D --> G["Evidence index over verification articles"]
+    F --> H["joblib model artifact"]
+    G --> I["joblib retrieval artifact"]
+    H --> J["FastAPI service"]
+    I --> J
+    J --> K["POST /verify"]
+    K --> L["Prediction + confidence + evidence sentences"]
+    L --> M["Human-reviewable JSON response"]
+    C --> N["Evaluation: macro-F1, confusion matrix, Recall@k, MRR, calibration"]
+    F --> N
+    G --> N
