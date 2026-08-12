@@ -12,6 +12,6 @@ flowchart LR
     J --> K["POST /verify"]
     K --> L["Prediction + confidence + evidence sentences"]
     L --> M["Human-reviewable JSON response"]
-    C --> N["Evaluation: macro-F1, confusion matrix, Recall@k, MRR, calibration"]
+    C --> N["Evaluation: accuracy, macro-F1, balanced accuracy, confusion matrices, top-1 label match"]
     F --> N
     G --> N
